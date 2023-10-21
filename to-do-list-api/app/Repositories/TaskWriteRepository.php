@@ -37,7 +37,7 @@ class TaskWriteRepository implements TaskWriteInterface
         $response = $this->task->findOrFail($id);
         $response->delete();
 
-        return response()->noContent();
+        return $response;
     }
 
 }

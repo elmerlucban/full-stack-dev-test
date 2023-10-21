@@ -8,7 +8,7 @@ use App\Models\Task;
 class TaskReadRepository implements TaskReadInterface
 {
     private $task;
-    private $defaultLimit = 10;
+    private $defaultLimit = 100;
 
     public function __construct(Task $task)
     {
