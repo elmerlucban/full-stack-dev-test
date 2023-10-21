@@ -14,7 +14,7 @@ class TaskWriteRepository implements TaskWriteInterface
         $this->task = $task;
     }
 
-    public function create($request)
+    public function store($request)
     {
         $response = $this->task->create(['name' => $request->name]);
 

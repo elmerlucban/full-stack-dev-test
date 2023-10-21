@@ -34,21 +34,21 @@ class TaskController extends Controller
      */
     public function create(TaskRequest $request)
     {
-        try {
-            $response = $this->taskWrite->create($request);
-
-            return $this->success(new TaskResource($response),'Success', Response::HTTP_CREATED);
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
-        }
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        //
+        try {
+            $response = $this->taskWrite->store($request);
+
+            return $this->success(new TaskResource($response),'Success', Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
 
     /**
