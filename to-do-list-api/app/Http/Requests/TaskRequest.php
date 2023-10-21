@@ -28,7 +28,7 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:100', Rule::unique('tasks', 'name')->ignore($this->tasks)]
+            'description' => ['required', 'max:100', Rule::unique('tasks', 'description')->ignore($this->tasks)]
         ];
     }
 
@@ -40,9 +40,9 @@ class TaskRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'The Task name is requiresssd!.',
-            'name.max'      => 'The Task must be a maximum of 100 characters!.',
-            'name.unique'   => 'The Task name is already exist.',
+            'description.required' => 'The Task description is requiresssd!.',
+            'description.max'      => 'The Task must be a maximum of 200 characters!.',
+            'description.unique'   => 'The Task description is already exist.',
         ];
 
     }
