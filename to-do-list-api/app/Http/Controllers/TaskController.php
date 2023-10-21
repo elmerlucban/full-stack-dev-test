@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
+use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Repositories\TaskReadRepository;
 use App\Repositories\TaskWriteRepository;
 use App\Traits\ResponseFormatter;
 use Illuminate\Http\Request;
@@ -15,30 +17,34 @@ class TaskController extends Controller
     use ResponseFormatter;
 
     private $taskWrite;
+    private $taskRead;
 
-    public function __construct(TaskWriteRepository $taskWrite)
+    public function __construct(TaskWriteRepository $taskWrite, TaskReadRepository $taskRead)
     {
         $this->taskWrite = $taskWrite;
+        $this->taskRead  = $taskRead;
     }
 
     /**
-     * Display a listing of the resource.
+     * View all of the items in the to-do list.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        try {
+            $response = $this->taskRead->index($request);
+
+            return (new TaskCollection($response))->additional([
+                'code'    => 200,
+                'message' => 'Success',
+            ]);
+
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(TaskRequest $request)
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Add an item to the list
      */
     public function store(TaskRequest $request)
     {
@@ -54,21 +60,20 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show($task)
     {
-        //
+        try {
+            $response = $this->taskRead->show($task);
+
+            return $this->success(new TaskResource($response));
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
 
+  
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Mark an item from the list as complete
      */
     public function update(Request $request, $task)
     {
@@ -82,10 +87,16 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove an item from the list
      */
-    public function destroy(Task $task)
+    public function destroy($task)
     {
-        //
+        try {
+            $this->taskWrite->destroy($task);
+
+            return response()->noContent();
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
 }

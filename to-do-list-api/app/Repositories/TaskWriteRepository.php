@@ -25,9 +25,19 @@ class TaskWriteRepository implements TaskWriteInterface
     {
         $response = $this->task->findOrFail($id);
 
-        $response->update(['name' => $request->name]);
+        $response->is_completed = 1;
+        $response->save();
         return $response;
 
+    }
+    
+
+    public function destroy($id)
+    {
+        $response = $this->task->findOrFail($id);
+        $response->delete();
+
+        return response()->noContent();
     }
 
 }
