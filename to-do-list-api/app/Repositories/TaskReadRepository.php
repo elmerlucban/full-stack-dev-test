@@ -23,7 +23,6 @@ class TaskReadRepository implements TaskReadInterface
             $task = $this->task->orderBy('created_at', 'DESC');
         }
 
-
         return $task->paginate(
             (int) $request->get('limit') > 0 ? (int) $request->get('limit') : $this->defaultLimit
         );
