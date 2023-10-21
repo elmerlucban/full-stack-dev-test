@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 interface TaskFormProps {
   onSubmit: (description: string) => void;
+  onFocus: (description: string) => void;
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
+const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onFocus }) => {
   const [newItemDescription, setNewItemDescription] = useState<string>('');
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -21,6 +22,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
         placeholder="Enter your task..."
         value={newItemDescription}
         onChange={(e) => setNewItemDescription(e.target.value)}
+        onFocus={(e) => onFocus(e.target.value)}
       />
       <button className="bg-blue-500 text-white px-4 py-2 rounded" type="submit">
         Add

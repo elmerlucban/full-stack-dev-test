@@ -2,7 +2,7 @@ import React from 'react';
 interface Task {
   id: number;
   description: string;
-  isComplete: boolean;
+  is_completed: boolean;
 }
 
 interface TaskListItemProps {
@@ -13,10 +13,11 @@ interface TaskListItemProps {
 
 const TaskListItem: React.FC<TaskListItemProps> = ({ task, onRemove, onCompletion }) => {
   return (
-    <li className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2">
+    <li className={`flex tasks-center justify-between mb-2`}>
       <span
-        className={`cursor-pointer ${task.isComplete ? 'line-through' : ''}`}
+        className={`cursor-pointer ${task.is_completed ? 'line-through' : ''}`}
         onClick={() => onCompletion(task.id)}
+        title={task.is_completed ? 'Completed Task' : 'Click to mark as completed'}
       >
         {task.description}
       </span>
