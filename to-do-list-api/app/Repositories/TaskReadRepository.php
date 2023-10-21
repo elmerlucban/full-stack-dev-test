@@ -17,7 +17,14 @@ class TaskReadRepository implements TaskReadInterface
 
     public function index($request)
     {
-        return $this->task->paginate(
+        if ($request->has('sort_by')) {
+            $task = $this->task->orderBy($request->sort_by, $request->sort_order ?? 'ASC');
+        } else {
+            $task = $this->task->orderBy('created_at', 'DESC');
+        }
+
+
+        return $task->paginate(
             (int) $request->get('limit') > 0 ? (int) $request->get('limit') : $this->defaultLimit
         );
     }

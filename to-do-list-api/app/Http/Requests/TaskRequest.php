@@ -28,7 +28,7 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => ['required', 'max:100', Rule::unique('tasks', 'description')->ignore($this->tasks)]
+            'description' => ['required', 'max:200', 'min:10', Rule::unique('tasks', 'description')->ignore($this->tasks)]
         ];
     }
 
