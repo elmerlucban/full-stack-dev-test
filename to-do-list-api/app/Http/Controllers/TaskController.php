@@ -2,11 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Repositories\TaskWriteRepository;
+use App\Traits\ResponseFormatter;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
+    use ResponseFormatter;
+
+    private $taskWrite;
+
+    public function __construct(TaskWriteRepository $taskWrite)
+    {
+        $this->taskWrite = $taskWrite;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -18,9 +32,15 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(TaskRequest $request)
     {
-        //
+        try {
+            $response = $this->taskWrite->create($request);
+
+            return $this->success(new TaskResource($response),'Success', Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
 
     /**
@@ -50,9 +70,15 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $task)
     {
-        //
+        try {
+            $response = $this->taskWrite->update($request, $task);
+
+            return $this->success(new TaskResource($response),'Success', Response::HTTP_CREATED);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage());
+        }
     }
 
     /**
