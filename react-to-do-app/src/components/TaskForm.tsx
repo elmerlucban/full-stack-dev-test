@@ -15,8 +15,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onFocus }) => {
 
   return (
     <form onSubmit={handleFormSubmit} className="flex mb-4">
-      <input
-        type="text"
+      <textarea
         className="border rounded p-2 mr-2 flex-grow"
         placeholder="Enter your task..."
         value={newItemDescription}
