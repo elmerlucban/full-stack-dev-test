@@ -36,7 +36,6 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProv
     } catch (error) {
       setTasks([]);
       setErrorMessage(error.response.data.message);
-      console.error('Error fetching tasks:', error.response.data);
     }
   };
 
@@ -46,7 +45,6 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProv
       setTasks([...tasks, response.data.data]);
     } catch (error) {
       setErrorMessage(error.response.data.message);
-      console.error('Error adding task:', error.response.data);
     }
   };
 
@@ -56,7 +54,6 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProv
       setTasks(tasks.filter(task => task.id !== id));
     } catch (error) {
       setErrorMessage(error.response.data.message);
-      console.error('Error removing task:', error.response.data);
     }
   };
 
@@ -66,7 +63,6 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProv
       setTasks(tasks.map(task => (task.id === id ? response.data.data : task)));
     } catch (error) {
       setErrorMessage(error.response.data.message);
-      console.error('Error updating task status:', error.response.data);
     }
   };
 
