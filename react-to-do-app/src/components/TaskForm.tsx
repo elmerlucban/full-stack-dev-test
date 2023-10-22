@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 interface TaskFormProps {
   onSubmit: (description: string) => void;
   onFocus: (description: string) => void;

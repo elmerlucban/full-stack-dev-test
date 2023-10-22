@@ -1,6 +1,5 @@
 import React, { createContext, useContext, ReactNode, ReactElement, useState, useEffect } from 'react';
 import Tasks from '../services/taskService';
-
 interface Task {
   id: number;
   description: string;
@@ -18,6 +17,7 @@ interface TaskContextProps {
 }
 
 const TaskContext = createContext<TaskContextProps | undefined>(undefined);
+const MAX_DESCRIPTION_LENGTH = 200;
 
 interface TaskProviderProps {
   children: ReactNode;
@@ -26,6 +26,7 @@ interface TaskProviderProps {
 export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProviderProps): ReactElement => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
+
 
   const getAllTasks = async () => {
     try {
@@ -41,8 +42,15 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProv
 
   const addTask = async (description: string) => {
     try {
-      const response = await Tasks.addTask({ description });
-      setTasks([response.data.data, ...tasks]);
+      if (description.length <= MAX_DESCRIPTION_LENGTH) {
+        const response = await Tasks.addTask({ description });
+
+        setTasks([response.data.data, ...tasks]);
+        setErrorMessage('');
+      } else {
+        setErrorMessage(`Task description cannot exceed ${MAX_DESCRIPTION_LENGTH} characters.`);
+      }
+      
     } catch (error) {
       setErrorMessage(error.response.data.message);
     }
