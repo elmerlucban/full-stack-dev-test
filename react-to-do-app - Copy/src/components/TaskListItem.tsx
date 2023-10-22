@@ -22,11 +22,11 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, onRemove, onCompletio
       {task.description}
     </span>
     <button className="text-blue-500 ml-2" onClick={() => onCompletion(task.id)}>
-      Mark as completed
+      Mark as Completed
     </button>
 
     <button className="text-red-500 ml-2" onClick={() => onRemove(task.id)}>
-     Remove
+      Remove
     </button>
   </li>
 
