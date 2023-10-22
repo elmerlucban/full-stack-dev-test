@@ -42,7 +42,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }: TaskProv
   const addTask = async (description: string) => {
     try {
       const response = await Tasks.addTask({ description });
-      setTasks([...tasks, response.data.data]);
+      setTasks([response.data.data, ...tasks]);
     } catch (error) {
       setErrorMessage(error.response.data.message);
     }
